@@ -1,1 +1,0 @@
-print("Lung Cancer Prediction")
