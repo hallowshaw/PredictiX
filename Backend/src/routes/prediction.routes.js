@@ -4,7 +4,7 @@ import {
   diabetespred,
   lungpred,
   breastpred,
-} from "../controllers/heartpred.controller.js";
+} from "../controllers/pred.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
