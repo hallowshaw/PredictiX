@@ -1,0 +1,1 @@
+print("Lung Cancer Prediction")
