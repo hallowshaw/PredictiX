@@ -1,14 +1,300 @@
+/* Reset and global styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.box {
-  height: 100vh;
-  width: 100vw;
+/* Applying font to the whole body */
+body {
+  font-family: "Mulish", sans-serif;
+  font-size: 16px; /* Default root font size */
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem 1.25rem; /* 10px 20px */
+  background-color: #f9f9f9;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1); /* 0 2px 4px */
+}
+
+.navbar-logo img {
+  height: 3.75rem; /* 55px */
+  margin-left: 1.875rem; /* 30px */
+}
+
+.navbar-links {
+  display: flex;
+  gap: 3.5rem; /* 20px */
+  position: absolute;
+  right: 19rem; /* 304px */
+}
+
+.navbar-link {
+  text-decoration: none;
+  color: #1f1534;
+  font-weight: normal;
+  transition: font-weight 0.3s ease;
+}
+
+.navbar-link:hover {
+  font-weight: bold;
+}
+
+.navbar-link.active {
+  color: black;
+  font-weight: bold;
+}
+
+.navbar-auth {
+  display: flex;
+  gap: 0.625rem; /* 10px */
+  margin-right: 2.188rem; /* 35px */
+}
+
+.btn {
+  padding: 0.625rem 1.25rem; /* 10px 20px */
+  border: none;
+  border-radius: 0.3125rem; /* 5px */
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.btn-login {
+  background-color: #4285f4;
+  color: white;
+  border-radius: 2.188rem; /* 35px */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-login:hover {
+  background-color: #1755ab;
+  transform: scale(1.02);
+}
+
+.btn-signup {
+  background-color: #2c2ac0;
+  color: white;
+  border-radius: 2.188rem; /* 35px */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-signup:hover {
+  background-color: #0d156e;
+  transform: scale(1.02);
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 4rem; /* 32px 64px */
+  background-color: #f9f9f9;
+  height: 87vh; /* Viewport height to fix the scroll */
+}
+
+.hero-content {
+  max-width: 27%;
+  margin-left: 4rem; /*64px*/
+}
+
+.hero-content h1 {
+  font-size: 2.5rem; /* 40px */
+  margin-bottom: 1rem; /* 16px */
+  color: #1f1534;
+}
+
+.hero-content p {
+  font-size: 1.125rem; /* 18px */
+  margin-bottom: 2rem; /* 32px */
+  color: #555;
+}
+
+.hero-image {
+  max-width: 50%;
+  margin-right: 4rem; /*64px*/
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.btn-primary {
+  background-color: #4285f4;
+  color: white;
+  padding: 0.75rem 1.5rem; /* 12px 24px */
+  border-radius: 2.188rem; /* 35px */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #1755ab;
+  transform: scale(1.02);
+}
+
+/* Predictor Page */
+.predictor-container {
+  text-align: center;
+  padding: 1.25rem; /* 20px */
+  background-color: #f9f9f9;
+  height: 87vh;
+}
+
+.welcome-text {
+  font-size: 1.5rem; /* 24px */
+  margin-bottom: 0.625rem; /* 10px */
+}
+
+.description {
+  font-size: 1.2rem; /* 19.2px */
+  color: #6c757d;
+  margin-bottom: 1.875rem; /* 30px */
+  margin-left: 6.25rem; /* 100px */
+  margin-right: 6.25rem; /* 100px */
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem; /* 20px */
+  justify-content: center;
+}
+
+.card {
+  background: white;
+  border-radius: 0.625rem; /* 10px */
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* 0 4px 8px */
+  padding: 1.25rem; /* 20px */
+  max-width: 18.75rem; /* 300px */
+  text-align: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  flex: 1 1 calc(50% - 2.5rem); /* Take up approximately 50% of the container's width, minus the gap */
+}
+
+.card:hover {
+  transform: scale(1.05);
+  background-color: #f2f2f2;
+}
+
+.card a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-image {
+  width: 5rem; /* 80px */
+  height: auto;
+  margin-bottom: 1.25rem; /* 20px */
+}
+
+.card-title {
+  font-size: 1.5rem; /* 24px */
+  margin-bottom: 0.625rem; /* 10px */
+}
+
+.card-description {
+  font-size: 1rem; /* 16px */
+  color: #6c757d;
+}
+
+.card a:hover .card-title,
+.card a:hover .card-description {
+  text-decoration: none;
+  color: inherit;
+}
+
+/*Login*/
+.login-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: rgb(84, 84, 196);
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  background-color: #f9f9f9;
+  border-radius: 0.625rem; /* 10px */
+  max-width: 100%x;
+  width: 100%;
+}
+
+.login-form-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #1f1534;
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 50%;
+}
+
+.login-form input {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 0.3125rem; /* 5px */
+  width: 100%;
+}
+
+.login-button {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.3125rem; /* 5px */
+  background-color: #4285f4;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+}
+
+.login-button:hover {
+  background-color: #1755ab;
+  transform: scale(1.02);
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.login-footer a {
+  color: #4285f4;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-footer a:hover {
+  color: #1755ab;
+}
+
+.login-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-image img {
+  max-width: 100%;
+  height: auto;
 }
