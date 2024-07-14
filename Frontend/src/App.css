@@ -298,3 +298,284 @@ body {
   max-width: 100%;
   height: auto;
 }
+
+/* Diabetes Page CSS */
+
+.diabetes-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.diabetes-page-header {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.diabetes-page-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.diabetes-page-input-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.diabetes-page-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.diabetes-page-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #3b82f6;
+  color: white;
+  margin: 10px auto;
+  display: block;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.diabetes-page-button:hover {
+  background-color: #2563eb;
+  transform: scale(1.02);
+}
+
+.diabetes-page-upload-report-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.diabetes-page-upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3b82f6;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.diabetes-page-upload-label:hover {
+  background-color: #2563eb;
+}
+
+.diabetes-page-upload-icon {
+  margin-right: 10px;
+}
+
+.diabetes-page-upload-input {
+  display: none; /* Hide the file input */
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.diabetes-page-result-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+.diabetes-page-result-container p {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.diabetes-page-result-container .diabetes-page-button {
+  margin-top: 20px;
+  background-color: #4caf50;
+}
+
+.diabetes-page-result-container .diabetes-page-button:hover {
+  background-color: #45a049;
+}
+
+.prediction-text {
+  font-size: 1.5rem; /* Larger text */
+  font-weight: bold; /* Bold text */
+  text-align: center; /* Centered text */
+  padding: 10px; /* Padding around text */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.no-diabetes {
+  color: #38a169; /* Green color */
+  background-color: #e6ffed; /* Light green background */
+}
+
+.diabetes {
+  color: #e53e3e; /* Red color */
+  background-color: #ffe5e5; /* Light red background */
+}
+
+/* Heart Page CSS */
+.heart-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.heart-page-header {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.heart-page-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.heart-page-input-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.heart-page-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.heart-page-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #3b82f6;
+  color: white;
+  margin: 10px auto;
+  display: block;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.heart-page-button:hover {
+  background-color: #2563eb;
+  transform: scale(1.02);
+}
+
+.heart-page-upload-report-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.heart-page-upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3b82f6;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.heart-page-upload-label:hover {
+  background-color: #2563eb;
+}
+
+.heart-page-upload-icon {
+  margin-right: 10px;
+}
+
+.heart-page-upload-input {
+  display: none; /* Hide the file input */
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.heart-page-result-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+.heart-page-result-container p {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.heart-page-result-container .heart-page-button {
+  margin-top: 20px;
+  background-color: #4caf50;
+}
+
+.heart-page-result-container .heart-page-button:hover {
+  background-color: #45a049;
+}
+
+.prediction-text {
+  font-size: 1.5rem; /* Larger text */
+  font-weight: bold; /* Bold text */
+  text-align: center; /* Centered text */
+  padding: 10px; /* Padding around text */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.no-heart-disease {
+  color: #38a169; /* Green color */
+  background-color: #e6ffed; /* Light green background */
+}
+
+.heart-disease {
+  color: #e53e3e; /* Red color */
+  background-color: #ffe5e5; /* Light red background */
+}

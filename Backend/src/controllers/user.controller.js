@@ -33,11 +33,13 @@ const registerUser = asyncHandler(async (req, res) => {
   // check for user creation
   // return res
 
-  const { fullName, email, username, password } = req.body;
+  const { fullname, email, username, password } = req.body;
   //console.log("email: ", email);
+  console.log(req.body);
+  console.log(fullname, email, username, password);
 
   if (
-    [fullName, email, username, password].some((field) => field?.trim() === "")
+    [fullname, email, username, password].some((field) => field?.trim() === "")
   ) {
     throw new ApiError(400, "All fields are required");
   }
@@ -56,7 +58,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     username: username.toLowerCase(),
     email,
-    fullname: fullName,
+    fullname,
     password,
   });
   console.log("User is ", user);
@@ -261,6 +263,33 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Account details updated successfully"));
 });
 
+const getProfile = asyncHandler(async (req, res) => {
+  const token = req.cookies.accessToken; // Ensure you are getting accessToken from cookies
+  console.log(token); // Check if token is retrieved correctly for debugging
+
+  if (!token) {
+    throw new ApiError(401, "Access Token is missing");
+  }
+
+  try {
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    const user = await User.findById(decodedToken._id).select(
+      "-password -refreshToken"
+    );
+
+    if (!user) {
+      throw new ApiError(404, "User not found");
+    }
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, user, "Profile fetched successfully"));
+  } catch (error) {
+    throw new ApiError(401, "Invalid token");
+  }
+});
+
 export {
   registerUser,
   loginUser,
@@ -269,4 +298,5 @@ export {
   changeCurrentPassword,
   getCurrentUser,
   updateAccountDetails,
+  getProfile,
 };

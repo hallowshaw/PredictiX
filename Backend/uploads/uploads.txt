@@ -1,0 +1,4 @@
+Created this because this folder won't be pushed without anything in it!
+
+
+The Uploaded Reports are stored here for data scraping and then deleted else it will load the server unnecessarily.
