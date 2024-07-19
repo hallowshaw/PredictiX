@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Card from "../components/Card";
 import heartImage from "../assets/heart.png";
 import lungImage from "../assets/lung.png";
@@ -10,13 +12,22 @@ import "../App.css";
 
 function PredictorsPage() {
   const { userInfo } = useContext(UserContext);
+  const navigate = useNavigate();
 
-  const getLink = (path) => {
-    return userInfo ? path : "/login";
+  const handleLinkClick = (path) => {
+    if (userInfo) {
+      navigate(path);
+    } else {
+      toast.info("Please log in to access this predictor.");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
   };
 
   return (
     <div className="predictor-container">
+      <ToastContainer />
       <p className="description">
         The Comprehensive Health Diagnostics Suite utilizes advanced AI
         technology for early detection and precise prediction of breast cancer,
@@ -28,8 +39,8 @@ function PredictorsPage() {
         reducing the burden of these diseases and enhancing quality of life.
       </p>
       <div className="card-container">
-        <Link
-          to={getLink("/predictors/heart")}
+        <div
+          onClick={() => handleLinkClick("/predictors/heart")}
           className="card"
           style={{ textDecoration: "none" }}
         >
@@ -38,9 +49,9 @@ function PredictorsPage() {
             title="Heart Disease"
             description="Guarding Hearts: AI solutions for accurate prediction and early intervention in heart disease."
           />
-        </Link>
-        <Link
-          to={getLink("/predictors/lung")}
+        </div>
+        <div
+          onClick={() => handleLinkClick("/predictors/lung")}
           className="card"
           style={{ textDecoration: "none" }}
         >
@@ -49,9 +60,9 @@ function PredictorsPage() {
             title="Lung Cancer"
             description="Clearing the Air: AI-driven insights for proactive lung cancer prediction and care."
           />
-        </Link>
-        <Link
-          to={getLink("/predictors/breast")}
+        </div>
+        <div
+          onClick={() => handleLinkClick("/predictors/breast")}
           className="card"
           style={{ textDecoration: "none" }}
         >
@@ -60,9 +71,9 @@ function PredictorsPage() {
             title="Breast Cancer"
             description="Beyond Detection: AI innovation for early, precise breast cancer prediction and care."
           />
-        </Link>
-        <Link
-          to={getLink("/predictors/diabetes")}
+        </div>
+        <div
+          onClick={() => handleLinkClick("/predictors/diabetes")}
           className="card"
           style={{ textDecoration: "none" }}
         >
@@ -71,7 +82,7 @@ function PredictorsPage() {
             title="Diabetes"
             description="Empowering Health: AI solutions for precise diabetes prediction and proactive wellness."
           />
-        </Link>
+        </div>
       </div>
     </div>
   );

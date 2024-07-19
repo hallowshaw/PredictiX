@@ -2,7 +2,9 @@ import React, { useState, useContext } from "react";
 import "../App.css";
 import LoginVector from "../assets/LoginVector.png";
 import { UserContext } from "../context/UserContext";
-import { useNavigate, Link } from "react-router-dom"; // Import Link from react-router-dom
+import { useNavigate, Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function LoginPage() {
   const [username, setUsername] = useState("");
@@ -14,6 +16,20 @@ function LoginPage() {
 
   async function login(e) {
     e.preventDefault();
+
+    // Client-side validation
+    if (!email || !password) {
+      toast.error("Please fill out all fields");
+      return;
+    }
+
+    // Email format validation including the presence of "@"
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:8080/api/v1/users/login", {
         method: "POST",
@@ -23,30 +39,46 @@ function LoginPage() {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        if (response.status === 401) {
+          // Unauthorized error
+          toast.error("Email or password does not match");
+        } else {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return;
       }
 
       const userInfo = await response.json();
       setUserInfo(userInfo);
-      navigate("/");
+      toast.success("Login successful! Redirecting to homepage...");
+
+      // Delay navigation to show the toast for a few seconds
+      setTimeout(() => {
+        navigate("/");
+      }, 3000); // 3 seconds delay
     } catch (error) {
       console.error("Error:", error);
-      alert("Wrong credentials");
+      toast.error("An unexpected error occurred. Please try again.");
     }
   }
 
   return (
     <div className="login-page">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="login-container">
         <div className="login-form-container">
           <h2 className="login-title">Log In</h2>
           <form className="login-form" onSubmit={login}>
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
             <input
               type="email"
               placeholder="Email"

@@ -148,7 +148,7 @@ const LungPage = () => {
 
   return (
     <div className="lung-page-container">
-      <h1 className="lung-page-header">LUNG DISEASE PREDICTOR</h1>
+      <h1 className="lung-page-header">LUNG CANCER PREDICTOR</h1>
       <div
         className="loader-overlay"
         style={{ display: loading ? "flex" : "none" }}

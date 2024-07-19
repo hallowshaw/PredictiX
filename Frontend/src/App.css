@@ -56,6 +56,9 @@ body {
 }
 
 .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 0.2rem 1.25rem; /* 10px 20px */
   border: none;
   border-radius: 0.3125rem; /* 5px */
@@ -63,6 +66,8 @@ body {
   font-weight: bold;
   text-decoration: none;
   font-size: 0.9rem; /* 14.4px */
+  height: 40px;
+  margin-top: -10px;
 }
 
 .btn-login {
@@ -90,7 +95,7 @@ body {
 }
 
 .btn-logout {
-  background-color: #f44336;
+  background-color: #b52218;
   color: white;
   border-radius: 2.188rem; /* 35px */
   padding: 0.2rem 1.25rem; /* 10px 20px */
@@ -103,7 +108,7 @@ body {
 }
 
 .btn-logout:hover {
-  background-color: #d32f2f;
+  background-color: #611010;
   transform: scale(1.02);
 }
 
@@ -252,7 +257,33 @@ body {
 }
 
 /* Media Query for Tablets and Smaller */
-@media screen and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hero {
+    padding: 2rem; /* 32px */
+    min-height: 90vh;
+    text-align: center;
+  }
+
+  .hero-content {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .hero-image {
+    max-width: 100%;
+    margin-top: 2rem; /* 32px */
+  }
+
+  .btn-primary {
+    margin-top: 1rem; /* 16px */
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 767.98px) {
   .hero {
     padding: 2rem; /* 32px */
     min-height: 90vh;
@@ -334,6 +365,7 @@ body {
   flex: 1 1 calc(50% - 40px); /* Two cards per row with 20px gap */
   opacity: 0; /* Start hidden */
   animation: slideIn 1s ease-out forwards; /* Apply slide-in animation */
+  cursor: pointer;
 }
 
 .card:hover {
@@ -367,12 +399,22 @@ body {
   .card {
     flex: 1 1 calc(50% - 20px); /* Two cards per row with smaller gap */
   }
+  .pos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 @media (max-width: 576px) {
   .card {
     flex: 1 1 100%; /* One card per row on smaller screens */
     max-width: 100%; /* Full width */
+  }
+  .pos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -1414,7 +1456,7 @@ body {
   z-index: 1001;
 }
 
-/* About Us Section */
+/* About Us */
 .our__team {
   padding: 4rem 2rem;
   background-color: #f9f9f9;

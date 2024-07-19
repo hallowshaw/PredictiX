@@ -11,8 +11,10 @@ function Hero() {
           Revolutionizing Healthcare: Comprehensive, Rapid AI Diagnostics Suite
           for Accurate Multi-Disease Detection and Prevention.
         </p>
-        <Link to="/predictors">
-          <button className="btn btn-primary">Diagnose Now</button>
+        <Link to="/predictors" style={{ textDecoration: "none" }}>
+          <div className="pos">
+            <button className="btn btn-primary">Diagnose Now</button>
+          </div>
         </Link>
       </div>
       <div className="hero-image">

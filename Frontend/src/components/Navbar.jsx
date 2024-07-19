@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa"; // Import FaTimes for the cross icon
+import { FaBars, FaTimes } from "react-icons/fa";
 import logo from "../assets/PredictiX_main_logo.png";
 import { UserContext } from "../context/UserContext";
 
@@ -10,7 +10,18 @@ function Navbar() {
 
   useEffect(() => {
     fetchProfile();
-  }, []);
+
+    const handleResize = () => {
+      if (window.innerWidth > 954 && isMobile) {
+        setIsMobile(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isMobile]);
 
   const fetchProfile = async () => {
     try {
@@ -74,7 +85,7 @@ function Navbar() {
           className={({ isActive }) =>
             isActive ? "navbar-link active" : "navbar-link"
           }
-          onClick={handleLinkClick} // Close the menu on click
+          onClick={handleLinkClick}
         >
           Home
         </NavLink>
@@ -83,7 +94,7 @@ function Navbar() {
           className={({ isActive }) =>
             isActive ? "navbar-link active" : "navbar-link"
           }
-          onClick={handleLinkClick} // Close the menu on click
+          onClick={handleLinkClick}
         >
           Predictors
         </NavLink>
@@ -92,7 +103,7 @@ function Navbar() {
           className={({ isActive }) =>
             isActive ? "navbar-link active" : "navbar-link"
           }
-          onClick={handleLinkClick} // Close the menu on click
+          onClick={handleLinkClick}
         >
           About us
         </NavLink>
@@ -110,7 +121,7 @@ function Navbar() {
             <NavLink
               to="/"
               onClick={logout}
-              className="btn btn-logout" // Use a custom class for logout button
+              className="btn btn-logout"
               style={{ cursor: "pointer" }}
             >
               Logout
@@ -121,14 +132,14 @@ function Navbar() {
             <NavLink
               to="/login"
               className="btn btn-login"
-              onClick={handleLinkClick} // Close the menu on click
+              onClick={handleLinkClick}
             >
               Log In
             </NavLink>
             <NavLink
               to="/signup"
               className="btn btn-signup"
-              onClick={handleLinkClick} // Close the menu on click
+              onClick={handleLinkClick}
             >
               Sign Up
             </NavLink>
@@ -136,8 +147,7 @@ function Navbar() {
         )}
       </div>
       <div className="hamburger" onClick={toggleMobileMenu}>
-        {isMobile ? <FaTimes size={30} /> : <FaBars size={30} />}{" "}
-        {/* Toggle icon */}
+        {isMobile ? <FaTimes size={30} /> : <FaBars size={30} />}
       </div>
     </nav>
   );
