@@ -10,7 +10,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-//secured routes
+// Secured routes
 router.route("/heart-pred").post(verifyJWT, heartpred);
 router.route("/diabetes-pred").post(verifyJWT, diabetespred);
 router.route("/lung-pred").post(verifyJWT, upload.single("image"), lungpred);

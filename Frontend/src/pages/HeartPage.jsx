@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "../App.css";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib"; // Ensure correct import
 import { FiUpload } from "react-icons/fi"; // Importing React Icons
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const HeartPage = () => {
   const [formData, setFormData] = useState({
@@ -23,6 +25,7 @@ const HeartPage = () => {
   const [error, setError] = useState("");
   const [showResult, setShowResult] = useState(false);
   const [pdfFile, setPdfFile] = useState(null);
+  const [loading, setLoading] = useState(false); // State for loading spinner
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,6 +36,7 @@ const HeartPage = () => {
   };
 
   const handleUploadReport = async (e) => {
+    setLoading(true); // Start loading spinner
     const file = e.target.files[0];
     if (file && file.type === "application/pdf") {
       setPdfFile(file);
@@ -78,6 +82,8 @@ const HeartPage = () => {
       } catch (error) {
         console.error("PDF upload failed:", error.message);
         setError("Failed to process PDF. Please try again.");
+      } finally {
+        setLoading(false); // Stop loading spinner
       }
     } else {
       setError("Please upload a valid PDF file.");
@@ -86,6 +92,7 @@ const HeartPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading spinner
     try {
       const response = await fetch(
         "http://localhost:8080/api/v1/predict/heart-pred",
@@ -124,6 +131,8 @@ const HeartPage = () => {
       setError("Failed to predict. Please try again.");
       setPredictionResult(""); // Reset prediction result on error
       setShowResult(false); // Hide the result section
+    } finally {
+      setLoading(false); // Stop loading spinner
     }
   };
 
@@ -150,6 +159,7 @@ const HeartPage = () => {
 
   // Function to generate and download PDF with dynamic data
   const generateDynamicPDF = async () => {
+    setLoading(true); // Start loading spinner
     try {
       const existingPdfBytes = await fetch(
         "/src/ReportTemplate/Report.pdf"
@@ -218,12 +228,20 @@ const HeartPage = () => {
     } catch (error) {
       console.error("Failed to generate PDF:", error.message);
       setError("Failed to generate PDF. Please try again.");
+    } finally {
+      setLoading(false); // Stop loading spinner
     }
   };
 
   return (
     <div className="heart-page-container">
       <h1 className="heart-page-header">HEART DISEASE PREDICTOR</h1>
+      <div
+        className="loader-overlay"
+        style={{ display: loading ? "flex" : "none" }}
+      >
+        <Loader type="TailSpin" color="#FFF" height={70} width={70} />
+      </div>
       {!showResult ? (
         <form className="heart-page-form" onSubmit={handleSubmit}>
           <div className="heart-page-input-container">

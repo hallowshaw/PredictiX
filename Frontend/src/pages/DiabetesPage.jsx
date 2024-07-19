@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "../App.css";
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib"; // Ensure correct import
-import { FiUpload } from "react-icons/fi"; // Importing React Icons
+import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import { FiUpload } from "react-icons/fi";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const DiabetesPage = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +20,7 @@ const DiabetesPage = () => {
   const [error, setError] = useState("");
   const [showResult, setShowResult] = useState(false);
   const [pdfFile, setPdfFile] = useState(null);
+  const [loading, setLoading] = useState(false); // State for loading spinner
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +31,7 @@ const DiabetesPage = () => {
   };
 
   const handleUploadReport = async (e) => {
+    setLoading(true); // Start loading spinner
     const file = e.target.files[0];
     if (file && file.type === "application/pdf") {
       setPdfFile(file);
@@ -50,9 +54,8 @@ const DiabetesPage = () => {
           throw new Error("PDF upload request failed.");
         }
         const data = await response.json();
-        console.log("Data from server:", data); // Debug log to see the data structure
+        console.log("Data from server:", data);
 
-        // Map the response data to the form state
         setFormData({
           pregnancies: data.Pregnancies || "",
           glucose: data.Glucose || "",
@@ -66,6 +69,8 @@ const DiabetesPage = () => {
       } catch (error) {
         console.error("PDF upload failed:", error.message);
         setError("Failed to process PDF. Please try again.");
+      } finally {
+        setLoading(false); // Stop loading spinner
       }
     } else {
       setError("Please upload a valid PDF file.");
@@ -74,6 +79,8 @@ const DiabetesPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading spinner
+
     try {
       const response = await fetch(
         "http://localhost:8080/api/v1/predict/diabetes-pred",
@@ -83,7 +90,7 @@ const DiabetesPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
-          credentials: "include", // Ensure cookies are sent
+          credentials: "include",
         }
       );
       if (!response.ok) {
@@ -91,19 +98,21 @@ const DiabetesPage = () => {
       }
       const data = await response.json();
       setPredictionResult(data.result);
-      setError(""); // Clear any previous errors
-      setShowResult(true); // Show the result section
+      setError("");
+      setShowResult(true);
     } catch (error) {
       console.error("Prediction failed:", error.message);
       setError("Failed to predict. Please try again.");
-      setPredictionResult(""); // Reset prediction result on error
-      setShowResult(false); // Hide the result section
+      setPredictionResult("");
+      setShowResult(false);
+    } finally {
+      setLoading(false); // Stop loading spinner
     }
   };
 
   const handleRePredict = () => {
-    setShowResult(false); // Hide the result section to show the form again
-    setPredictionResult(""); // Clear the prediction result
+    setShowResult(false);
+    setPredictionResult("");
     setFormData({
       pregnancies: "",
       glucose: "",
@@ -113,13 +122,14 @@ const DiabetesPage = () => {
       bmi: "",
       diabetesPedigreeFunction: "",
       age: "",
-    }); // Reset form fields
-    setPdfFile(null); // Reset PDF file
+    });
+    setPdfFile(null);
   };
 
-  // Function to generate and download PDF with dynamic data
   const generateDynamicPDF = async () => {
     try {
+      setLoading(true); // Start loading spinner
+
       const existingPdfBytes = await fetch(
         "/src/ReportTemplate/Report.pdf"
       ).then((res) => res.arrayBuffer());
@@ -131,7 +141,6 @@ const DiabetesPage = () => {
       const firstPage = pages[0];
       const { width, height } = firstPage.getSize();
 
-      // Draw each field from formData onto the PDF
       const fields = [
         { label: "Number of Pregnancies:", value: formData.pregnancies },
         { label: "Glucose Level:", value: formData.glucose },
@@ -147,8 +156,8 @@ const DiabetesPage = () => {
         { label: "Prediction Result:", value: predictionResult },
       ];
 
-      let yOffset = height - 250; // Starting Y position with more spacing
-      const lineHeight = 20; // Line height between fields
+      let yOffset = height - 250;
+      const lineHeight = 20;
 
       fields.forEach(({ label, value }) => {
         firstPage.drawText(`${label} ${value}`, {
@@ -158,7 +167,7 @@ const DiabetesPage = () => {
           font: helveticaFont,
           color: rgb(0, 0, 0),
         });
-        yOffset -= lineHeight; // Move Y position up for the next line
+        yOffset -= lineHeight;
       });
 
       const pdfBytes = await pdfDoc.save();
@@ -173,12 +182,20 @@ const DiabetesPage = () => {
     } catch (error) {
       console.error("Failed to generate PDF:", error.message);
       setError("Failed to generate PDF. Please try again.");
+    } finally {
+      setLoading(false); // Stop loading spinner
     }
   };
 
   return (
     <div className="diabetes-page-container">
       <h1 className="diabetes-page-header">DIABETES PREDICTOR</h1>
+      <div
+        className="loader-overlay"
+        style={{ display: loading ? "flex" : "none" }}
+      >
+        <Loader type="TailSpin" color="#FFF" height={70} width={70} />
+      </div>
       {!showResult ? (
         <form className="diabetes-page-form" onSubmit={handleSubmit}>
           <div className="diabetes-page-input-container">
@@ -290,7 +307,6 @@ const DiabetesPage = () => {
           >
             {predictionResult}
           </p>
-          {/* Download Custom PDF button */}
           <button className="diabetes-page-button" onClick={generateDynamicPDF}>
             Download Report
           </button>

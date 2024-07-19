@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import "../App.css";
-import LoginVector from "../assets/LoginVector.png";
+import "../App.css"; // Ensure this imports the new CSS file for signup
+import SignupVector from "../assets/SignupVector.png";
 import { UserContext } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function SignupPage() {
   const [fullname, setFullname] = useState("");
@@ -47,11 +47,11 @@ function SignupPage() {
   }
 
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <div className="login-form-container">
-          <h2 className="login-title">Sign Up</h2>
-          <form className="login-form" onSubmit={signup}>
+    <div className="signup-page">
+      <div className="signup-container">
+        <div className="signup-form-container">
+          <h2 className="signup-title">Sign Up</h2>
+          <form className="signup-form" onSubmit={signup}>
             <input
               type="text"
               placeholder="Full Name"
@@ -76,13 +76,18 @@ function SignupPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button type="submit" className="login-button">
+            <button type="submit" className="signup-button">
               Sign Up
             </button>
           </form>
+          <div className="signup-footer">
+            <p>
+              Already have an account? <Link to="/login">Log in</Link>
+            </p>
+          </div>
         </div>
-        <div className="login-image">
-          <img src={LoginVector} alt="Login Vector" />
+        <div className="signup-image">
+          <img src={SignupVector} alt="Signup Vector" />
         </div>
       </div>
     </div>

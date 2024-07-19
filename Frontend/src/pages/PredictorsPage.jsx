@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Card from "../components/Card";
 import heartImage from "../assets/heart.png";
 import lungImage from "../assets/lung.png";
 import diabetesImage from "../assets/diabetes.png";
 import breastImage from "../assets/breast.png";
+import { UserContext } from "../context/UserContext";
 import "../App.css";
 
 function PredictorsPage() {
+  const { userInfo } = useContext(UserContext);
+
+  const getLink = (path) => {
+    return userInfo ? path : "/login";
+  };
+
   return (
     <div className="predictor-container">
       <p className="description">
@@ -22,7 +29,7 @@ function PredictorsPage() {
       </p>
       <div className="card-container">
         <Link
-          to="/predictors/heart"
+          to={getLink("/predictors/heart")}
           className="card"
           style={{ textDecoration: "none" }}
         >
@@ -33,7 +40,7 @@ function PredictorsPage() {
           />
         </Link>
         <Link
-          to="/predictors/lung"
+          to={getLink("/predictors/lung")}
           className="card"
           style={{ textDecoration: "none" }}
         >
@@ -44,7 +51,7 @@ function PredictorsPage() {
           />
         </Link>
         <Link
-          to="/predictors/breast"
+          to={getLink("/predictors/breast")}
           className="card"
           style={{ textDecoration: "none" }}
         >
@@ -55,7 +62,7 @@ function PredictorsPage() {
           />
         </Link>
         <Link
-          to="/predictors/diabetes"
+          to={getLink("/predictors/diabetes")}
           className="card"
           style={{ textDecoration: "none" }}
         >

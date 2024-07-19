@@ -5,7 +5,9 @@
   "description": "A web application that predicts if a patient has breat cancer, diabetes, heart disease and  lung cancer based on machine learning models.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+    "server": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+    "client":"npm run dev --prefix ../Frontend",
+    "dev":"concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Soumik Sen",
   "license": "ISC",
@@ -21,6 +23,7 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.2"
   }

@@ -1,8 +1,8 @@
 import os
 import sys
 import numpy as np
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
+from tensorflow.keras.models import load_model # type: ignore
+from tensorflow.keras.preprocessing import image # type: ignore
 import tensorflow as tf
 import contextlib
 
@@ -49,4 +49,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     predicted_label = predict_image_class(model, img_path, IMAGE_SIZE)
-    print(predicted_label)
+    if predicted_label == "malignant":
+        print("Malignant (suffering from Breast Cancer)")
+    else:
+        print("Benign (not suffering from Breast Cancer)")
