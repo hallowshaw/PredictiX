@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "../App.css";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
-import { FiUpload } from "react-icons/fi";
+import { FiUpload, FiFileText } from "react-icons/fi";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
+import dotenv from "dotenv";
 
 const DiabetesPage = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +23,7 @@ const DiabetesPage = () => {
   const [showResult, setShowResult] = useState(false);
   const [pdfFile, setPdfFile] = useState(null);
   const [loading, setLoading] = useState(false); // State for loading spinner
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -130,9 +133,9 @@ const DiabetesPage = () => {
     try {
       setLoading(true); // Start loading spinner
 
-      const existingPdfBytes = await fetch(
-        "/src/ReportTemplate/Report.pdf"
-      ).then((res) => res.arrayBuffer());
+      const existingPdfBytes = await fetch("/Report.pdf").then((res) =>
+        res.arrayBuffer()
+      );
 
       const pdfDoc = await PDFDocument.load(existingPdfBytes);
       const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -269,22 +272,78 @@ const DiabetesPage = () => {
               Don't want to type manually? Upload your report and we will do it
               for you
             </p>
-            <label
-              htmlFor="upload-report"
-              className="diabetes-page-upload-label"
+
+            <div
+              style={{
+                display: "flex",
+                gap: "1rem",
+                flexWrap: "wrap",
+                justifyContent: "center",
+              }}
             >
-              <FiUpload className="diabetes-page-upload-icon" /> Upload Report
-              <input
-                id="upload-report"
-                type="file"
-                accept="application/pdf"
-                onChange={handleUploadReport}
-                className="diabetes-page-upload-input"
-              />
-            </label>
+              <label
+                htmlFor="upload-report"
+                className="diabetes-page-upload-label"
+              >
+                <FiUpload className="diabetes-page-upload-icon" /> Upload Report
+                <input
+                  id="upload-report"
+                  type="file"
+                  accept="application/pdf"
+                  onChange={handleUploadReport}
+                  className="diabetes-page-upload-input"
+                />
+              </label>
+
+              <button
+                type="button"
+                className="diabetes-page-upload-label diabetes-page-dummy-report"
+                onClick={() => setShowModal(true)}
+              >
+                <FiFileText className="diabetes-page-upload-icon" /> Test
+                Reports
+              </button>
+            </div>
+
             <button type="submit" className="diabetes-page-button">
               Predict
             </button>
+
+            {showModal && (
+              <div className="diabetes-page-modal-overlay">
+                <div className="diabetes-page-modal-content">
+                  <h3>Select a Report to download</h3>
+                  <a
+                    href="/ReportTemplate/Diabetes/DiabetesDummy.pdf"
+                    download
+                    className="diabetes-page-button"
+                  >
+                    Dummy Report
+                  </a>
+                  <a
+                    href="/ReportTemplate/Diabetes/Diabetes_Suffering.pdf"
+                    download
+                    className="diabetes-page-button"
+                  >
+                    Suffering Report
+                  </a>
+                  <a
+                    href="/ReportTemplate/Diabetes/Diabetes_NotSuffering.pdf"
+                    download
+                    className="diabetes-page-button"
+                  >
+                    Not Suffering Report
+                  </a>
+                  <button
+                    className="diabetes-page-button"
+                    style={{ backgroundColor: "red" }}
+                    onClick={() => setShowModal(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </form>
       ) : (

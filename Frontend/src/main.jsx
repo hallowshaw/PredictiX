@@ -5,6 +5,7 @@ import "./App.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    {console.log(import.meta.env)}
     <App />
   </React.StrictMode>
 );

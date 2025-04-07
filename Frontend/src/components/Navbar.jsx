@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
+
+import { NavLink, useNavigate } from "react-router-dom";
+import { FaBars, FaTimes } from "react-icons/fa"; // Import FaTimes for the cross icon
 import logo from "../assets/PredictiX_main_logo.png";
 import { UserContext } from "../context/UserContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Navbar() {
   const { userInfo, setUserInfo } = useContext(UserContext);
   const [isMobile, setIsMobile] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProfile();
@@ -54,6 +58,12 @@ function Navbar() {
       );
       if (response.ok) {
         setUserInfo(null);
+        toast.success("You have been logged out successfully!", {
+          autoClose: 2000,
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
       } else {
         console.error("Logout failed with status:", response.status);
       }
@@ -76,6 +86,17 @@ function Navbar() {
 
   return (
     <nav className="navbar">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="navbar-logo">
         <img src={logo} alt="PredictiX" />
       </div>

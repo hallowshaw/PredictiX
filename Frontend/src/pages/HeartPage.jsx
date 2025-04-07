@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../App.css";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib"; // Ensure correct import
-import { FiUpload } from "react-icons/fi"; // Importing React Icons
+import { FiUpload, FiFileText } from "react-icons/fi";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
@@ -26,6 +26,7 @@ const HeartPage = () => {
   const [showResult, setShowResult] = useState(false);
   const [pdfFile, setPdfFile] = useState(null);
   const [loading, setLoading] = useState(false); // State for loading spinner
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -161,9 +162,9 @@ const HeartPage = () => {
   const generateDynamicPDF = async () => {
     setLoading(true); // Start loading spinner
     try {
-      const existingPdfBytes = await fetch(
-        "/src/ReportTemplate/Report.pdf"
-      ).then((res) => res.arrayBuffer());
+      const existingPdfBytes = await fetch("/Report.pdf").then((res) =>
+        res.arrayBuffer()
+      );
 
       const pdfDoc = await PDFDocument.load(existingPdfBytes);
       const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -355,19 +356,77 @@ const HeartPage = () => {
               Don't want to type manually? Upload your report and we will do it
               for you
             </p>
-            <label htmlFor="upload-report" className="heart-page-upload-label">
-              <FiUpload className="heart-page-upload-icon" /> Upload Report
-              <input
-                id="upload-report"
-                type="file"
-                accept="application/pdf"
-                onChange={handleUploadReport}
-                className="heart-page-upload-input"
-              />
-            </label>
+
+            <div
+              style={{
+                display: "flex",
+                gap: "1rem",
+                flexWrap: "wrap",
+                justifyContent: "center",
+              }}
+            >
+              <label
+                htmlFor="upload-report"
+                className="heart-page-upload-label"
+              >
+                <FiUpload className="heart-page-upload-icon" /> Upload Report
+                <input
+                  id="upload-report"
+                  type="file"
+                  accept="application/pdf"
+                  onChange={handleUploadReport}
+                  className="heart-page-upload-input"
+                />
+              </label>
+
+              <button
+                type="button"
+                className="heart-page-upload-label heart-page-dummy-report"
+                onClick={() => setShowModal(true)}
+              >
+                <FiFileText className="heart-page-upload-icon" /> Test Reports
+              </button>
+            </div>
+
             <button type="submit" className="heart-page-button">
               Predict
             </button>
+
+            {showModal && (
+              <div className="heart-page-modal-overlay">
+                <div className="heart-page-modal-content">
+                  <h3>Select a report to download</h3>
+                  <a
+                    href="/ReportTemplate/Heart/HeartDummy.pdf"
+                    download
+                    className="heart-page-button"
+                  >
+                    Dummy Report
+                  </a>
+                  <a
+                    href="/ReportTemplate/Heart/HeartReport_Suffering.pdf"
+                    download
+                    className="heart-page-button"
+                  >
+                    Suffering Report
+                  </a>
+                  <a
+                    href="/ReportTemplate/Heart/HeartReport_NotSuffering.pdf"
+                    download
+                    className="heart-page-button"
+                  >
+                    Not Suffering Report
+                  </a>
+                  <button
+                    className="heart-page-button"
+                    style={{ backgroundColor: "red" }}
+                    onClick={() => setShowModal(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </form>
       ) : (

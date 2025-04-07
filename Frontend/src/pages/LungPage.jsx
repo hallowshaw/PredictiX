@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../App.css";
-import { FiUpload } from "react-icons/fi";
+import { FiUpload, FiFileText } from "react-icons/fi";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import Loader from "react-loader-spinner"; // Import the loader component
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"; // Import the loader styles
@@ -17,6 +17,8 @@ const LungPage = () => {
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imageUploaded, setImageUploaded] = useState(false); // State to track image upload
+  const [showDummyModal, setShowDummyModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,9 +101,9 @@ const LungPage = () => {
 
   const generateDynamicPDF = async () => {
     try {
-      const existingPdfBytes = await fetch(
-        "/src/ReportTemplate/Report.pdf"
-      ).then((res) => res.arrayBuffer());
+      const existingPdfBytes = await fetch("/Report.pdf").then((res) =>
+        res.arrayBuffer()
+      );
 
       const pdfDoc = await PDFDocument.load(existingPdfBytes);
       const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -190,20 +192,34 @@ const LungPage = () => {
           </div>
           <div className="lung-page-upload-image-container">
             <p>Upload your C.T Scanned image of Lungs for prediction</p>
-            <label htmlFor="upload-image" className="lung-page-upload-label">
-              <FiUpload className="lung-page-upload-icon" /> Upload Image
-              {imageUploaded && (
-                <span style={{ marginLeft: "0.5rem", color: "green" }}>✔</span>
-              )}
-              <input
-                id="upload-image"
-                type="file"
-                accept="image/*"
-                onChange={handleUploadImage}
-                className="lung-page-upload-input"
-                required
-              />
-            </label>
+
+            <div className="lung-page-upload-buttons">
+              <label htmlFor="upload-image" className="lung-page-upload-label">
+                <FiUpload className="lung-page-upload-icon" /> Upload Image
+                {imageUploaded && (
+                  <span style={{ marginLeft: "0.5rem", color: "green" }}>
+                    ✔
+                  </span>
+                )}
+                <input
+                  id="upload-image"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleUploadImage}
+                  className="lung-page-upload-input"
+                  required
+                />
+              </label>
+
+              <button
+                type="button"
+                className="lung-page-upload-label lung-page-dummy-report"
+                onClick={() => setShowModal(true)}
+              >
+                <FiFileText className="lung-page-upload-icon" /> Test Images
+              </button>
+            </div>
+
             <button
               type="submit"
               className="lung-page-button"
@@ -211,7 +227,67 @@ const LungPage = () => {
             >
               Predict
             </button>
+
+            {showModal && (
+              <div className="lung-page-modal-overlay">
+                <div className="lung-page-modal-content">
+                  <h3>Download C.T. scanned images in .zip</h3>
+                  <a
+                    href="/ReportTemplate/Lung/Lung_Cancerous.zip"
+                    download
+                    className="lung-page-button"
+                  >
+                    Cancerous
+                  </a>
+                  <a
+                    href="/ReportTemplate/Lung/Lung_NonCancerous.zip"
+                    download
+                    className="lung-page-button"
+                  >
+                    Non Cancerous
+                  </a>
+                  <button
+                    className="lung-page-button"
+                    style={{ backgroundColor: "red" }}
+                    onClick={() => setShowModal(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
+
+          {showDummyModal && (
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <h2>Download Dummy Lung Images</h2>
+                <p>Use these sample CT scans for testing:</p>
+                <div className="modal-links">
+                  <a
+                    href="/dummy/lung/suffering.zip"
+                    download
+                    className="lung-page-button"
+                  >
+                    Suffering
+                  </a>
+                  <a
+                    href="/dummy/lung/non_suffering.zip"
+                    download
+                    className="lung-page-button"
+                  >
+                    Not Suffering
+                  </a>
+                </div>
+                <button
+                  className="lung-page-button close-btn"
+                  onClick={() => setShowDummyModal(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
         </form>
       ) : (
         <div className="lung-page-result-container">

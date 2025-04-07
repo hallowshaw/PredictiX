@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "../App.css";
-import { FiUpload } from "react-icons/fi";
+import { FiUpload, FiFileText } from "react-icons/fi";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import Loader from "react-loader-spinner"; // Import the loader component
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"; // Import the loader styles
+
+import dotenv from "dotenv";
 
 const BreastPage = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +19,8 @@ const BreastPage = () => {
   const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false); // State for loading indicator
   const [imageUploaded, setImageUploaded] = useState(false); // State to track image upload
+  const [showDummyModal, setShowDummyModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,9 +103,9 @@ const BreastPage = () => {
 
   const generateDynamicPDF = async () => {
     try {
-      const existingPdfBytes = await fetch(
-        "/src/ReportTemplate/Report.pdf"
-      ).then((res) => res.arrayBuffer());
+      const existingPdfBytes = await fetch("/Report.pdf").then((res) =>
+        res.arrayBuffer()
+      );
 
       const pdfDoc = await PDFDocument.load(existingPdfBytes);
       const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -199,21 +203,37 @@ const BreastPage = () => {
             </select>
           </div>
           <div className="lung-page-upload-image-container">
-            <p>Upload your breast X-ray image for prediction</p>
-            <label htmlFor="upload-image" className="lung-page-upload-label">
-              <FiUpload className="lung-page-upload-icon" /> Upload Image
-              {imageUploaded && (
-                <span style={{ marginLeft: "0.5rem", color: "green" }}>✔</span>
-              )}
-              <input
-                id="upload-image"
-                type="file"
-                accept="image/*"
-                onChange={handleUploadImage}
-                className="lung-page-upload-input"
-                required
-              />
-            </label>
+            <p>
+              Upload a histological image of breast cancer cells for prediction
+            </p>
+
+            <div className="lung-page-upload-buttons">
+              <label htmlFor="upload-image" className="lung-page-upload-label">
+                <FiUpload className="lung-page-upload-icon" /> Upload Image
+                {imageUploaded && (
+                  <span style={{ marginLeft: "0.5rem", color: "green" }}>
+                    ✔
+                  </span>
+                )}
+                <input
+                  id="upload-image"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleUploadImage}
+                  className="lung-page-upload-input"
+                  required
+                />
+              </label>
+
+              <button
+                type="button"
+                className="lung-page-upload-label lung-page-dummy-report"
+                onClick={() => setShowModal(true)}
+              >
+                <FiFileText className="lung-page-upload-icon" /> Test Images
+              </button>
+            </div>
+
             <button
               type="submit"
               className="lung-page-button"
@@ -221,6 +241,35 @@ const BreastPage = () => {
             >
               Predict
             </button>
+
+            {showModal && (
+              <div className="lung-page-modal-overlay">
+                <div className="lung-page-modal-content">
+                  <h3>Download Histological images in .zip</h3>
+                  <a
+                    href="/ReportTemplate/Breast/Breast_Cancerous.zip"
+                    download
+                    className="lung-page-button"
+                  >
+                    Cancerous
+                  </a>
+                  <a
+                    href="/ReportTemplate/Breast/Breast_NonCancerous.zip"
+                    download
+                    className="lung-page-button"
+                  >
+                    Non Cancerous
+                  </a>
+                  <button
+                    className="lung-page-button"
+                    style={{ backgroundColor: "red" }}
+                    onClick={() => setShowModal(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </form>
       ) : (

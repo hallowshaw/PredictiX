@@ -13,7 +13,7 @@ const teamMembers = [
   {
     imgUrl: team01,
     name: "Arunetri Dhar",
-    position: "ML Specialist & Accuracy Analyst",
+    position: "Machine Learning Developer",
     linkedin: "https://www.linkedin.com/in/arunetri-dhar-2a2979232/",
     github: "https://github.com/Aru-2359",
     instagram: "https://www.instagram.com/unfaithfully_yours.aruuuuuu/",
@@ -21,7 +21,7 @@ const teamMembers = [
   {
     imgUrl: team02,
     name: "Soumik Sen",
-    position: "Backend Lead & ML Developer",
+    position: "Full Stack & Machine Learning Developer",
     linkedin: "https://www.linkedin.com/in/soumik-sen-210473211/",
     github: "https://github.com/SoumikSen10",
     instagram: "https://www.instagram.com/soumiksen_10/",
@@ -29,7 +29,7 @@ const teamMembers = [
   {
     imgUrl: team03,
     name: "Utsha Majumder",
-    position: "ML Developer & Optimizer",
+    position: "Machine Learning Developer",
     linkedin: "https://www.linkedin.com/in/utsha-majumder18032004/",
     github: "https://github.com/Utsha-18",
     instagram: "https://www.instagram.com/_u_t_s_h_a_/",
@@ -37,7 +37,7 @@ const teamMembers = [
   {
     imgUrl: team04,
     name: "Rhitam Chaudhury",
-    position: "Frontend Lead & ML Developer",
+    position: "Frontend & Machine Learning Developer",
     linkedin: "https://www.linkedin.com/in/rhitam-chaudhury-66b17b248/",
     github: "https://github.com/hallowshaw",
     instagram: "https://www.instagram.com/illusional_destiny/",
