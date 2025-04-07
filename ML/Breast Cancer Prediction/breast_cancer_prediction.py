@@ -1,4 +1,5 @@
 import os
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 import sys
 import numpy as np
 from tensorflow.keras.models import load_model # type: ignore
@@ -48,8 +49,8 @@ if __name__ == "__main__":
         print(f"Image file not found at {img_path}")
         sys.exit(1)
 
-    predicted_label = predict_image_class(model, img_path, IMAGE_SIZE)
-    if predicted_label == "malignant":
-        print("Malignant (suffering from Breast Cancer)")
-    else:
-        print("Benign (not suffering from Breast Cancer)")
+    # predicted_label = predict_image_class(model, img_path, IMAGE_SIZE)
+    # if predicted_label == "malignant":
+    #     print("Malignant (suffering from Breast Cancer)")
+    # else:
+    #     print("Benign (not suffering from Breast Cancer)")

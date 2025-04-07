@@ -206,6 +206,7 @@ const lungpred = asyncHandler(async (req, res) => {
 
     let predictionData = "";
     let errorOccurred = false;
+    let responseSent = false;  // Flag to check if response is already sent
 
     pythonProcess.stdout.on("data", (data) => {
       predictionData += data.toString();
@@ -214,25 +215,26 @@ const lungpred = asyncHandler(async (req, res) => {
     pythonProcess.stderr.on("data", (data) => {
       console.error(`Error from Python script: ${data}`);
       errorOccurred = true;
-      res.status(500).json({ error: "Prediction error" });
+      if (!responseSent) {
+        res.status(500).json({ error: "Prediction error" });
+        responseSent = true;
+      }
     });
 
     pythonProcess.on("close", (code) => {
-      if (code === 0 && !errorOccurred) {
+      if (code === 0 && !errorOccurred && !responseSent) {
         predictionData = predictionData.trim();
         if (predictionData === "cancerous") {
-          res
-            .status(200)
-            .json({ prediction: "Person is suffering from Lung Cancer" });
+          res.status(200).json({ prediction: "Person is suffering from Lung Cancer" });
         } else if (predictionData === "non-cancerous") {
-          res
-            .status(200)
-            .json({ prediction: "Person is not suffering from Lung Cancer" });
+          res.status(200).json({ prediction: "Person is not suffering from Lung Cancer" });
         } else {
           res.status(500).json({ error: "Unexpected prediction result" });
         }
-      } else if (!errorOccurred) {
+        responseSent = true;
+      } else if (!responseSent) {
         res.status(500).json({ error: "Prediction error" });
+        responseSent = true;
       }
 
       // Always delete the file after the prediction process
@@ -244,9 +246,13 @@ const lungpred = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error("Error in lungpred controller:", error);
-    res.status(500).json({ error: "Internal server error" });
+    if (!responseSent) {
+      res.status(500).json({ error: "Internal server error" });
+      responseSent = true;
+    }
   }
 });
+
 
 
 const breastpred = asyncHandler(async (req, res) => {
@@ -274,10 +280,12 @@ const breastpred = asyncHandler(async (req, res) => {
       "../../../ML/Breast Cancer Prediction/breast_cancer_prediction.py"
     ),
     filePath,
-  ]);
+  ], { encoding: 'utf8' });
+
 
   let predictionData = "";
   let errorOccurred = false;
+  let responseSent = false;  // Flag to check if response is already sent
 
   pythonProcess.stdout.on("data", (data) => {
     predictionData += data.toString();
@@ -286,14 +294,19 @@ const breastpred = asyncHandler(async (req, res) => {
   pythonProcess.stderr.on("data", (data) => {
     console.error(`Error: ${data}`);
     errorOccurred = true;
-    res.status(500).json({ error: "Prediction error" });
+    if (!responseSent) {
+      res.status(500).json({ error: "Prediction error" });
+      responseSent = true;
+    }
   });
 
   pythonProcess.on("close", (code) => {
-    if (code === 0 && !errorOccurred) {
+    if (code === 0 && !errorOccurred && !responseSent) {
       res.status(200).json({ prediction: predictionData.trim() });
-    } else if (!errorOccurred) {
+      responseSent = true;
+    } else if (!responseSent) {
       res.status(500).json({ error: "Prediction error" });
+      responseSent = true;
     }
 
     // Always delete the file after the prediction process
@@ -304,5 +317,6 @@ const breastpred = asyncHandler(async (req, res) => {
     });
   });
 });
+
 
 export { heartpred, diabetespred, lungpred, breastpred };
