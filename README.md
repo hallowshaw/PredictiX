@@ -74,12 +74,39 @@ The frontend design has been created using [Figma](https://www.figma.com/design/
 ## File Structure
 
 ```bash
-predictix/
-├── client/                # Frontend React code
-├── server/                # Backend Node.js code
-├── models/                # Machine learning models (.pkl and .h5 files)
-├── Screenshots/           # App screenshots (SS1, SS2, SS3, SS4)
-└── README.md
+PredictiX/
+├── Backend/                # Backend code
+│   ├── src/                # Source code
+│   │   ├── controllers/    # Controller files
+│   │   ├── DataScrapingScripts/ # Scripts for data scraping
+│   │   ├── db/             # Database configuration
+│   │   ├── middlewares/     # Middleware functions
+│   │   ├── models/         # Database models
+│   │   ├── routes/         # API route definitions
+│   │   ├── utils/          # Utility functions
+│   │   ├── app.js          # Main application file
+│   │   ├── constants.js     # Constant values
+│   │   └── index.js        # Entry point for the application
+│   └── uploads/            # Uploaded files (prescriptions, etc.)
+├── Frontend/               # Frontend code
+│   ├── public/             # Public assets
+│   │   └── PredictiXLogo.png # Logo file
+│   └── src/                # Source code
+│       ├── assets/         # Static assets
+│       ├── components/     # React components
+│       ├── context/        # Context API files
+│       ├── pages/          # Page components
+│       ├── ReportTemplate/  # Template for reports
+│       ├── utils/          # Utility functions
+│       ├── App.css         # Main CSS file
+│       ├── App.jsx         # Main React component
+│       └── main.jsx        # Entry point for the frontend
+├── Medical Reports/        # Generated medical reports
+├── ML/                     # Machine learning models and scripts
+├── Screenshots/            # Application screenshots
+├── LICENSE                 # License file
+└── README.md               # README file
+
 ```
 
 ## Screenshots
